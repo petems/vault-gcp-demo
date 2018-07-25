@@ -4,7 +4,7 @@ apt-get update -y
 
 apt-get install unzip wget -y
 
-wget https://releases.hashicorp.com/vault/0.10.2/vault_0.10.2_linux_amd64.zip
+wget https://releases.hashicorp.com/vault/0.10.3/vault_0.10.3_linux_amd64.zip
 unzip -j vault_*_linux_amd64.zip -d /usr/local/bin
 
 useradd -r -g daemon -d /usr/local/vault -m -s /sbin/nologin -c "Vault user" vault
@@ -23,6 +23,7 @@ backend "file" {
   path = "/mnt/vault/data"
 }
 disable_mlock = true
+ui = true
 EOF
 
 cat <<EOF | sudo tee /etc/systemd/system/vault.service
@@ -54,4 +55,4 @@ EOF
 
 sudo chmod 0644 /etc/systemd/system/vault.service
 
-systemctl vault start
+service vault start
