@@ -3,7 +3,7 @@ variable "billing_account" {}
 variable "org_id" {}
 
 provider "google" {
-  version = "1.13.0" # use older version until https://github.com/terraform-providers/terraform-provider-google/issues/1655 releases
+  version = "1.16.2"
 }
 
 resource "random_id" "id" {
