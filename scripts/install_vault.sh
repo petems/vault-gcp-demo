@@ -7,7 +7,8 @@ apt-get install unzip wget -y
 wget https://releases.hashicorp.com/vault/0.11.1/vault_0.11.1_linux_amd64.zip
 unzip -j vault_*_linux_amd64.zip -d /usr/local/bin
 
-useradd -r -g daemon -d /usr/local/vault -m -s /sbin/nologin -c "Vault user" vault
+groupadd vault
+useradd -r -g vault -d /usr/local/vault -m -s /sbin/nologin -c "Vault user" vault
 
 mkdir /etc/vault /etc/ssl/vault /mnt/vault
 chown vault.root /etc/vault /etc/ssl/vault /mnt/vault
