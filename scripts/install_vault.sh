@@ -29,25 +29,31 @@ EOF
 
 cat <<EOF | sudo tee /etc/systemd/system/vault.service
 [Unit]
-Description=Vault service
+Description="HashiCorp Vault - A tool for managing secrets"
+Documentation=https://www.vaultproject.io/docs/
+Requires=network-online.target
 After=network-online.target
+ConditionFileNotEmpty=/etc/vault/config.hcl
+StartLimitIntervalSec=60
 
 [Service]
 User=vault
-Group=daemon
-PrivateDevices=yes
-PrivateTmp=yes
+Group=vault
 ProtectSystem=full
 ProtectHome=read-only
+PrivateTmp=yes
+PrivateDevices=yes
 SecureBits=keep-caps
-Capabilities=CAP_IPC_LOCK+ep
+AmbientCapabilities=CAP_IPC_LOCK
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 NoNewPrivileges=yes
 ExecStart=/usr/local/bin/vault server -config=/etc/vault/config.hcl
+ExecReload=/bin/kill --signal HUP $MAINPID
+KillMode=process
 KillSignal=SIGINT
 TimeoutStopSec=30s
 Restart=on-failure
-StartLimitInterval=60s
+RestartSec=5
 StartLimitBurst=3
 
 [Install]
