@@ -4,7 +4,7 @@ apt-get update -y
 
 apt-get install unzip wget -y
 
-wget https://releases.hashicorp.com/vault/0.10.3/vault_0.10.3_linux_amd64.zip
+wget https://releases.hashicorp.com/vault/0.11.1/vault_0.11.1_linux_amd64.zip
 unzip -j vault_*_linux_amd64.zip -d /usr/local/bin
 
 useradd -r -g daemon -d /usr/local/vault -m -s /sbin/nologin -c "Vault user" vault
