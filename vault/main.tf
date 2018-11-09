@@ -31,6 +31,11 @@ data "terraform_remote_state" "gcp_project_state" {
   }
 }
 
+resource "vault_auth_backend" "gcp" {
+  path = "gcp"
+  type = "gcp"
+}
+
 resource "vault_gcp_auth_backend_role" "gcp" {
   role                   = "web"
   type                   = "gce"

@@ -2,6 +2,14 @@ data "http" "current_ip" {
   url = "http://ipv4.icanhazip.com/"
 }
 
+data "template_file" "vault_server_boostrap" {
+  template = "${file("${path.module}/templates/vault_server.sh.tpl")}"
+
+  vars {
+    project_id = "${google_project.vault_gcp_demo.project_id}"
+  }
+}
+
 data "template_file" "requester_bootstrap" {
   template = "${file("${path.module}/templates/requester.sh.tpl")}"
 
@@ -60,10 +68,12 @@ resource "google_compute_instance" "vault_server" {
     }
   }
 
-  metadata_startup_script = "${file("./scripts/install_vault.sh")}"
+  metadata_startup_script = "${data.template_file.vault_server_boostrap.rendered}"
 
   service_account {
+    email  = "${google_service_account.vault_auth_checker.email}"
     scopes = [
+      "https://www.googleapis.com/auth/cloud-platform",
       "https://www.googleapis.com/auth/devstorage.read_only",
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/service.management.readonly",

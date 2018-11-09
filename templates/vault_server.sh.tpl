@@ -24,8 +24,7 @@ backend "file" {
   path = "/mnt/vault/data"
 }
 seal "gcpckms" {
-  credentials = "/usr/local/vault/vault-project-user-creds.json"
-  project     = "vault-project"
+  project     = "${project_id}"
   region      = "global"
   key_ring    = "vault-keyring"
   crypto_key  = "vault-key"

@@ -57,21 +57,11 @@ Export the Vault token from the info from the initialize
 export VAULT_TOKEN=7a902c8b-a14e-f2af-e007-4482218c586e
 ```
 
-### Enable GCP Backend
-```
-vault auth enable gcp
-vault write auth/gcp/config \
-credentials=@../vault-auth-checker-credentials.json
-```
-
-(PR Currently open to do this with Terraform: https://github.com/terraform-providers/terraform-provider-vault/pull/198)
-
 ### Configure GCP Backend and secrets
 
 Configure Vault with Terraform code:
 ```
 cd vault/
-vault auth enable gcp
 terraform plan
 terraform apply
 ```
