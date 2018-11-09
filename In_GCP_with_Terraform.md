@@ -49,18 +49,13 @@ vault_addr_export = Run the following for the Vault configuration: export VAULT_
 
 Initialize Vault:
 ```
-vault operator initialize
+vault operator init
 ```
 
-Configure Vault basics with Vault terraform code:
+Export the Vault token from the info from the initialize
 ```
-cd .vault/
-terraform plan
-terraform apply
+export VAULT_TOKEN=7a902c8b-a14e-f2af-e007-4482218c586e
 ```
-
-Configure other bits of Vault with manual steps (these are currently not possible to manage with the provider, some pull-requests exist for some parts):
-
 
 ### Enable GCP Backend
 ```
@@ -69,14 +64,16 @@ vault write auth/gcp/config \
 credentials=@../vault-auth-checker-credentials.json
 ```
 
-### Configure web role for GCP
+(PR Currently open to do this with Terraform: https://github.com/terraform-providers/terraform-provider-vault/pull/198)
 
+### Configure GCP Backend and secrets
+
+Configure Vault with Terraform code:
 ```
-vault write auth/gcp/role/web \
-type=gce \
-policies=reader \
-project_id="$(terraform output project_id)" \
-bound_region="europe-west2"
+cd vault/
+vault auth enable gcp
+terraform plan
+terraform apply
 ```
 
 ## Show Backend and Policies
@@ -123,6 +120,6 @@ $ curl \
 $ ./scripts/ssh_to_vault_sad.sh
 $ source ~/.vault_credentials
 Error from vault: [
-  "instance zone europe-west1-b is not in role region 'europe-west2'"
+  "instance not in bound regions [\"europe-west2\"]"
 ]
 ```

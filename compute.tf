@@ -56,7 +56,7 @@ resource "google_compute_instance" "vault_server" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-8"
+      image = "debian-cloud/debian-9"
     }
   }
 
@@ -92,7 +92,7 @@ resource "google_compute_instance" "vault_happy" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-8"
+      image = "debian-cloud/debian-9"
     }
   }
 
@@ -128,7 +128,7 @@ resource "google_compute_instance" "vault_sad" {
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-8"
+      image = "debian-cloud/debian-9"
     }
   }
 
